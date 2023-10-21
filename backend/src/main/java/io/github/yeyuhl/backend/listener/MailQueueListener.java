@@ -1,8 +1,8 @@
 package io.github.yeyuhl.backend.listener;
 
+import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 @RabbitListener(queues = "mail")
 public class MailQueueListener {
-    @Autowired
+    @Resource
     JavaMailSender sender;
 
     @Value("${spring.mail.username}")

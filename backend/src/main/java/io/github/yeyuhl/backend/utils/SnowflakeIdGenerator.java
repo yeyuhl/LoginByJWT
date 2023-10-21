@@ -10,14 +10,35 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SnowflakeIdGenerator {
-    private static final long START_TIMESTAMP = 1691087910202L;
+    /**
+     * 开始的时间戳
+     */
+    private static final long START_TIMESTAMP = 1697870049141L;
 
+    /**
+     * 数据中心ID所占位数
+     */
     private static final long DATA_CENTER_ID_BITS = 5L;
+    /**
+     * 机器ID所占位数
+     */
     private static final long WORKER_ID_BITS = 5L;
+    /**
+     * 序列号所占位数
+     */
     private static final long SEQUENCE_BITS = 12L;
 
+    /**
+     * 支持的最大数据中心ID数
+     */
     private static final long MAX_DATA_CENTER_ID = ~(-1L << DATA_CENTER_ID_BITS);
+    /**
+     * 支持的最大机器ID数
+     */
     private static final long MAX_WORKER_ID = ~(-1L << WORKER_ID_BITS);
+    /**
+     * 支持的最大序列号数
+     */
     private static final long MAX_SEQUENCE = ~(-1L << SEQUENCE_BITS);
 
     private static final long WORKER_ID_SHIFT = SEQUENCE_BITS;
@@ -50,6 +71,7 @@ public class SnowflakeIdGenerator {
      * @return 雪花ID
      */
     public synchronized long nextId() {
+        // 获取当前时间戳
         long timestamp = getCurrentTimestamp();
         if (timestamp < lastTimestamp) {
             throw new IllegalStateException("Clock moved backwards. Refusing to generate ID.");
@@ -63,6 +85,7 @@ public class SnowflakeIdGenerator {
             sequence = 0L;
         }
         lastTimestamp = timestamp;
+        // 将当前时间戳与开始时间戳相减，再左移相应位数，再加上数据中心ID与机器ID，再加上序列号
         return ((timestamp - START_TIMESTAMP) << TIMESTAMP_SHIFT) |
                 (dataCenterId << DATA_CENTER_ID_SHIFT) |
                 (workerId << WORKER_ID_SHIFT) |
