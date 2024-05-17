@@ -1,0 +1,41 @@
+springdoc:
+  paths-to-match: /api/**
+  swagger-ui:
+    operations-sorter: alpha
+spring:
+  mail:
+    host: smtp.163.com
+    username: 
+    password: 
+  rabbitmq:
+    addresses: localhost
+    username: admin
+    password: admin
+    virtual-host: /
+  security:
+    filter:
+      order: -100
+    jwt:
+      key: 'WkYXZzJkZmQyZ'
+      expire: 7
+      limit:
+        base: 10
+        upgrade: 300
+        frequency: 30
+  datasource:
+    url: jdbc:mysql://localhost:3306/loginbyjwt
+    username: root
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  web:
+    cors:
+      origin: '*'
+      credentials: false
+      methods: '*'
+    flow:
+      period: 5
+      limit: 50
+      block: 60
+    verify:
+      mail-limit: 60
+
